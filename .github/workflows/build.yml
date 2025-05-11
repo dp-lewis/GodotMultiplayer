@@ -1,40 +1,47 @@
 # Whenever a tag push matching pattern "v*" then run the job
 on: 
-    push:
-      tags:
-        - "v*"
+  push:
+    tags:
+      - "v*"
 
-  jobs:
-    # job id, can be anything
-    export_game:
-      # Always use ubuntu-latest for this action
-      runs-on: ubuntu-latest
-      # Add permission for release creation. Can be made narrower according to your needs
-      permissions: write-all
-      # Job name, can be anything
-      name: Export Game
-      steps:
-        # Always include the checkout step so that 
-        # your project is available for Godot to export
-      - name: checkout
-        uses: actions/checkout@v4
-    
-      - name: export game
-        id: export
-        # Use latest version (see releases for all versions)
-        uses: firebelley/godot-export@v6.0.0
-        with:
-          # Defining all the required inputs
-          godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
-          godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz
-          relative_project_path: ./
-          relative_export_path: ./builds
-          archive_output: false
-          verbose: true
-          cache: true
+jobs:
+  # job id, can be anything
+  export_game:
+    # Always use ubuntu-latest for this action
+    runs-on: ubuntu-latest
+    # Add permission for release creation. Can be made narrower according to your needs
+    permissions: write-all
+    # Job name, can be anything
+    name: Export Game
+    steps:
+      # Always include the checkout step so that 
+      # your project is available for Godot to export
+    - name: checkout
+      uses: actions/checkout@v4
   
-      - name: Deploy to GitHub Pages 🚀
-        uses: JamesIves/github-pages-deploy-action@releases/v4
-        with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: /home/runner/.local/share/godot/builds/Web        
+    - name: export game
+      id: export
+      # Use latest version (see releases for all versions)
+      uses: firebelley/godot-export@v6.0.0
+      with:
+        # Defining all the required inputs
+        godot_executable_download_url: https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip
+        godot_export_templates_download_url: https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz
+        relative_project_path: ./
+        relative_export_path: ./builds
+        archive_output: false
+        verbose: true
+        cache: true
+
+    - name: Debug exported files
+      run: | 
+        echo "Root directory contents:"
+        ls -R ./
+        echo "Builds directory contents:"
+        ls -R ./builds
+
+    - name: Deploy to GitHub Pages 🚀
+      uses: JamesIves/github-pages-deploy-action@releases/v4
+      with:
+        branch: gh-pages # The branch the action should deploy to.
+        folder: /home/runner/.local/share/godot/builds/Web        
