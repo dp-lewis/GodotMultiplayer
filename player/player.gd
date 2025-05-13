@@ -18,6 +18,8 @@ var camera_instance
 
 var state = PlayerStates.IDLE
 
+var current_interactable:Area2D
+
 enum PlayerStates {
 	IDLE,
 	WALKING,
@@ -36,7 +38,7 @@ func _enter_tree() -> void:
 		
 	set_up_camera()
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if multiplayer.multiplayer_peer == null:
 		return
 
@@ -53,6 +55,10 @@ func _physics_process(_delta: float) -> void:
 	velocity.y += gravity
 
 	handle_movement_state()
+	
+	if Input.is_action_just_pressed("interact"):
+		if current_interactable:
+			current_interactable.interact.rpc_id(1)
 		
 	move_and_slide()
 	
@@ -119,3 +125,12 @@ func set_up_camera():
 
 func update_camera_pos():
 	camera_instance.global_position.x = global_position.x
+
+
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	current_interactable = area
+
+
+func _on_area_2d_area_exited(area: Area2D) -> void:
+	if current_interactable == area:
+		current_interactable = null

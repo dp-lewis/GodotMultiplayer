@@ -17,6 +17,8 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 	update_plate_State()
 
 func _on_area_2d_body_exited(_body: Node2D) -> void:
+	if multiplayer.multiplayer_peer == null:
+		return
 	if not multiplayer.is_server():
 		return
 	bodies_on_plate -= 1
