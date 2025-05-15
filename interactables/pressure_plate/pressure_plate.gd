@@ -32,12 +32,7 @@ func update_plate_State():
 func set_plate_properties():
 	plate_up.visible = !is_down
 	plate_down.visible = is_down
-	
 
 
 func _on_multiplayer_synchronizer_delta_synchronized() -> void:
 	set_plate_properties()
-
-
-func _on_bridge_plate_2_toggle(state: Variant) -> void:
-	pass # Replace with function body.

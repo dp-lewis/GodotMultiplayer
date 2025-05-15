@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dqbmu1v1b4lph"]
+[gd_scene load_steps=14 format=3 uid="uid://dqbmu1v1b4lph"]
 
 [ext_resource type="Texture2D" uid="uid://chwbcf7n2ajtp" path="res://art/platforms/Platformer_spritesheet.png" id="1_ns0ry"]
 [ext_resource type="Script" path="res://levels/level.gd" id="1_wxi52"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://d2bs7npxqw0vf" path="res://interactables/chest/chest.tscn" id="8_gdcwu"]
 [ext_resource type="PackedScene" uid="uid://cywnqfgnpevs7" path="res://interactables/key_door/key_door.tscn" id="9_hqg2a"]
 [ext_resource type="PackedScene" uid="uid://yhtgws5swty2" path="res://interactables/bridge/bridge.tscn" id="10_wusqv"]
+[ext_resource type="PackedScene" uid="uid://tij4jq4oxm3" path="res://interactables/pushable_objects/pushable_crate.tscn" id="11_6libv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_c1mku"]
 texture = ExtResource("1_ns0ry")
@@ -104,6 +105,9 @@ position = Vector2(1812, -197)
 
 [node name="Bridge" parent="----- Interactables ----" instance=ExtResource("10_wusqv")]
 position = Vector2(2108, -175)
+
+[node name="PushableCrate" parent="----- Interactables ----" instance=ExtResource("11_6libv")]
+position = Vector2(637, -164)
 
 [node name="----- Players -----" type="Node" parent="."]
 
