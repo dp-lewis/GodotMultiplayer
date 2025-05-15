@@ -5,6 +5,8 @@ var following_body:Node2D
 @export var lerp_speed := 0.5
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if multiplayer.multiplayer_peer == null:
+		return 
 	if multiplayer.is_server() and following_body != null:
 		global_position = lerp(
 			following_body.global_position + follow_offset, 

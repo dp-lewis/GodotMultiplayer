@@ -37,3 +37,7 @@ func set_plate_properties():
 
 func _on_multiplayer_synchronizer_delta_synchronized() -> void:
 	set_plate_properties()
+
+
+func _on_bridge_plate_2_toggle(state: Variant) -> void:
+	pass # Replace with function body.
