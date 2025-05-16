@@ -17,10 +17,11 @@ properties/0/path = NodePath(".:is_open")
 properties/0/spawn = true
 properties/0/replication_mode = 2
 
-[node name="KeyDoor" type="Node2D" node_paths=PackedStringArray("door_open", "door_closed")]
+[node name="KeyDoor" type="Node2D" node_paths=PackedStringArray("door_open", "door_closed", "exit_area")]
 script = ExtResource("1_garwr")
 door_open = NodePath("DoorOpen")
 door_closed = NodePath("DoorClosed")
+exit_area = NodePath("ExitArea")
 
 [node name="DoorClosed" type="Sprite2D" parent="."]
 z_index = -100
@@ -43,8 +44,18 @@ collision_mask = 8
 position = Vector2(0, -65)
 shape = SubResource("RectangleShape2D_7ne0i")
 
+[node name="ExitArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitArea"]
+position = Vector2(0, -65)
+shape = SubResource("RectangleShape2D_7ne0i")
+
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_udbld")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="ExitArea" to="." method="_on_exit_area_body_entered"]
 [connection signal="delta_synchronized" from="MultiplayerSynchronizer" to="." method="_on_multiplayer_synchronizer_delta_synchronized"]

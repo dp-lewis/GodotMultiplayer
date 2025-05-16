@@ -48,11 +48,12 @@ tile_size = Vector2i(128, 128)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_c1mku")
 
-[node name="Level_01" type="Node2D" node_paths=PackedStringArray("spawn_points", "players_container")]
+[node name="Level_01" type="Node2D" node_paths=PackedStringArray("spawn_points", "players_container", "key_door")]
 script = ExtResource("1_wxi52")
 spawn_points = [NodePath("----- Players -----/SpawnPoint_0"), NodePath("----- Players -----/SpawnPoint_1")]
 players_container = NodePath("----- Players -----/PlayersContainer")
 player_scenes = Array[PackedScene]([ExtResource("2_clhpn"), ExtResource("3_3uk6f")])
+key_door = NodePath("----- Interactables ----/KeyDoor")
 
 [node name="----- Environment -----" type="Node" parent="."]
 
@@ -96,7 +97,7 @@ position = Vector2(-477, 128)
 position = Vector2(-667, -69)
 
 [node name="KeyDoor" parent="----- Interactables ----" instance=ExtResource("9_hqg2a")]
-position = Vector2(2621, -192)
+position = Vector2(2650, -193)
 
 [node name="BridgePlate1" parent="----- Interactables ----" instance=ExtResource("6_v4eeq")]
 position = Vector2(1643, -197)

@@ -35,8 +35,12 @@ func _on_play_button_pressed() -> void:
 func change_level(scene:PackedScene):
 	for child in level_container.get_children():
 		level_container.remove_child(child)
+		child.level_complete.disconnect(_on_level_complete)
 		child.queue_free()
-	level_container.add_child(scene.instantiate())
+		
+	var new_level = scene.instantiate()
+	level_container.add_child(new_level)
+	new_level.level_complete.connect(_on_level_complete)
 
 func _on_connection_failure():
 	not_connected_hbox.show()
@@ -50,3 +54,7 @@ func _on_connected_to_server():
 @rpc("call_local", "authority", "reliable")
 func hide_menu():
 	ui.hide()
+
+
+func _on_level_complete():
+	call_deferred("change_level", level_scene)

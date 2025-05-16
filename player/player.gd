@@ -141,7 +141,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 func set_up_camera():
 	camera_instance = player_camera.instantiate()
 	camera_instance.global_position.y = camera_height
-	get_tree().current_scene.add_child.call_deferred(camera_instance)
+	get_parent().add_child.call_deferred(camera_instance)
 
 
 func update_camera_pos():
