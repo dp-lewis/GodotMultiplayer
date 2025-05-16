@@ -4,10 +4,24 @@ class_name PushableObject
 
 var requested_authority = false
 
+@export var target_position := Vector2.INF
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if not multiplayer.is_server():
 		freeze = true
+	
+func _process(delta: float) -> void:
+	if multiplayer.multiplayer_peer == null:
+		return
+	
+	if is_multiplayer_authority():
+		target_position = global_position
+	else: 
+		global_position = HelperFunctions.ClientInterpolate(
+			global_position,
+			target_position,
+			delta)
 
 @rpc("any_peer", "call_remote", "reliable")
 func request_authority(id) -> void: 

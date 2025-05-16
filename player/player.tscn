@@ -1,4 +1,4 @@
-[gd_scene load_steps=73 format=3 uid="uid://cc8fm416owm5u"]
+[gd_scene load_steps=74 format=3 uid="uid://cc8fm416owm5u"]
 
 [ext_resource type="Script" path="res://player/player.gd" id="1_3jm33"]
 [ext_resource type="Texture2D" uid="uid://cln1ubxiy43oh" path="res://art/characters/elf/double_jump_start/0_Dark_Elves_Double Jump_000.png" id="1_ruecm"]
@@ -68,6 +68,7 @@
 [ext_resource type="Texture2D" uid="uid://bbthkjqiq33il" path="res://art/characters/elf/walk/0_Dark_Elves_Walking_021.png" id="64_sk8xr"]
 [ext_resource type="Texture2D" uid="uid://b771rxse6n114" path="res://art/characters/elf/walk/0_Dark_Elves_Walking_022.png" id="65_vfjdx"]
 [ext_resource type="Texture2D" uid="uid://c2r31n6lj0pks" path="res://art/characters/elf/walk/0_Dark_Elves_Walking_023.png" id="66_ct6s1"]
+[ext_resource type="PackedScene" uid="uid://bda07st24xu88" path="res://player/player_finder.tscn" id="69_5s62c"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qhb7w"]
 size = Vector2(40, 56)
@@ -307,22 +308,23 @@ animations = [{
 size = Vector2(170, 500)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k73oj"]
-properties/0/path = NodePath(".:position")
+properties/0/path = NodePath("AnimatedSprite2D:scale")
 properties/0/spawn = true
 properties/0/replication_mode = 1
-properties/1/path = NodePath("AnimatedSprite2D:scale")
+properties/1/path = NodePath("AnimatedSprite2D:animation")
 properties/1/spawn = true
 properties/1/replication_mode = 1
-properties/2/path = NodePath("AnimatedSprite2D:animation")
+properties/2/path = NodePath(".:target_position")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("player_sprite")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("player_sprite", "player_finder")]
 collision_layer = 2
 collision_mask = 19
 script = ExtResource("1_3jm33")
 player_sprite = NodePath("AnimatedSprite2D")
 player_camera = ExtResource("2_b2il1")
+player_finder = NodePath("PlayerFinder")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -28)
@@ -346,6 +348,14 @@ shape = SubResource("RectangleShape2D_kseih")
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_k73oj")
 
+[node name="PlayerFinder" parent="." instance=ExtResource("69_5s62c")]
+visible = false
+position = Vector2(0, -29)
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="area_entered" from="AnimatedSprite2D/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="AnimatedSprite2D/Area2D" to="." method="_on_area_2d_area_exited"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
