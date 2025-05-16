@@ -3,7 +3,9 @@ extends Node2D
 @export var spawn_points:Array[Node2D]
 
 @export var players_container:Node2D
-@export var player_scene:PackedScene
+@export var player_scenes:Array[PackedScene]
+
+var next_player_index := 0
 
 var next_spawn_point_index := 0
 
@@ -27,12 +29,16 @@ func _exit_tree() -> void:
 	multiplayer.peer_disconnected.disconnect(delete_player)
 
 func add_player(id):
-	var player_instance = player_scene.instantiate()
+	var player_instance = player_scenes[next_player_index].instantiate()
 	
 	player_instance.position = get_spawn_point()
 	player_instance.name = str(id)
 
 	players_container.add_child(player_instance)
+	
+	next_player_index += 1
+	if next_player_index >= len(player_scenes):
+		next_player_index = 0
 
 
 func delete_player(id):

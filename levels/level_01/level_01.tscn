@@ -1,10 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://dqbmu1v1b4lph"]
+[gd_scene load_steps=15 format=3 uid="uid://dqbmu1v1b4lph"]
 
 [ext_resource type="Texture2D" uid="uid://chwbcf7n2ajtp" path="res://art/platforms/Platformer_spritesheet.png" id="1_ns0ry"]
 [ext_resource type="Script" path="res://levels/level.gd" id="1_wxi52"]
 [ext_resource type="Texture2D" uid="uid://bja0wl8tcw71c" path="res://art/backgrounds/background_01.png" id="2_a317h"]
+[ext_resource type="PackedScene" uid="uid://de6ufxalrv578" path="res://player/elf/elf.tscn" id="2_clhpn"]
+[ext_resource type="PackedScene" uid="uid://i3u134bmr13w" path="res://player/knight/knight.tscn" id="3_3uk6f"]
 [ext_resource type="Texture2D" uid="uid://bujx43rcy5b85" path="res://art/backgrounds/background_02.png" id="3_o53ro"]
-[ext_resource type="PackedScene" uid="uid://cc8fm416owm5u" path="res://player/player.tscn" id="4_5d8y0"]
 [ext_resource type="PackedScene" uid="uid://d0fesbm7da3dd" path="res://interactables/door/door.tscn" id="6_tl43p"]
 [ext_resource type="PackedScene" uid="uid://cqybtc2pmlpo" path="res://interactables/pressure_plate/pressure_plate.tscn" id="6_v4eeq"]
 [ext_resource type="PackedScene" uid="uid://d2bs7npxqw0vf" path="res://interactables/chest/chest.tscn" id="8_gdcwu"]
@@ -51,7 +52,7 @@ sources/0 = SubResource("TileSetAtlasSource_c1mku")
 script = ExtResource("1_wxi52")
 spawn_points = [NodePath("----- Players -----/SpawnPoint_0"), NodePath("----- Players -----/SpawnPoint_1")]
 players_container = NodePath("----- Players -----/PlayersContainer")
-player_scene = ExtResource("4_5d8y0")
+player_scenes = Array[PackedScene]([ExtResource("2_clhpn"), ExtResource("3_3uk6f")])
 
 [node name="----- Environment -----" type="Node" parent="."]
 
@@ -114,7 +115,7 @@ position = Vector2(637, -164)
 [node name="PlayersContainer" type="Node2D" parent="----- Players -----"]
 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="----- Players -----"]
-_spawnable_scenes = PackedStringArray("res://player/player.tscn")
+_spawnable_scenes = PackedStringArray("res://player/elf/elf.tscn", "res://player/knight/knight.tscn")
 spawn_path = NodePath("../PlayersContainer")
 spawn_limit = 2
 

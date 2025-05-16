@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://de6ufxalrv578"]
+
+[ext_resource type="PackedScene" uid="uid://cc8fm416owm5u" path="res://player/player.tscn" id="1_hdi7h"]
+[ext_resource type="SpriteFrames" uid="uid://bp30b0jqalek1" path="res://player/elf/elf.tres" id="2_40005"]
+
+[node name="Elf" instance=ExtResource("1_hdi7h")]
+movement_speed = 350
+max_jumps = 2
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = ExtResource("2_40005")
+animation = &"walk"
