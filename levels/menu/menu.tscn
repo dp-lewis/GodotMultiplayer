@@ -8,7 +8,7 @@
 [sub_resource type="LabelSettings" id="LabelSettings_4oog6"]
 font_size = 72
 
-[node name="Menu" type="Node" node_paths=PackedStringArray("ui", "level_container", "ip_line_edit", "status_label", "not_connected_hbox", "host_hbox", "steam_name_label")]
+[node name="Menu" type="Node" node_paths=PackedStringArray("ui", "level_container", "ip_line_edit", "status_label", "not_connected_hbox", "host_hbox", "steam_name_label", "steam_refresh_lobbies_button", "steam_lobby_itemlist")]
 script = ExtResource("1_54wux")
 ui = NodePath("UI")
 level_container = NodePath("Level")
@@ -18,6 +18,8 @@ status_label = NodePath("UI/TabContainer/Local Network/StatusLabel")
 not_connected_hbox = NodePath("UI/TabContainer/Local Network/NotConnectedHBox")
 host_hbox = NodePath("UI/TabContainer/Local Network/HostHBox")
 steam_name_label = NodePath("UI/TabContainer/Steam/SteamPersonaName")
+steam_refresh_lobbies_button = NodePath("UI/TabContainer/Steam/SteamRefreshLobbies")
+steam_lobby_itemlist = NodePath("UI/TabContainer/Steam/ItemList")
 
 [node name="Level" type="Node" parent="."]
 
@@ -90,7 +92,14 @@ text = "Join
 "
 
 [node name="ItemList" type="ItemList" parent="UI/TabContainer/Steam"]
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
+item_count = 1
+item_0/text = "Example"
+
+[node name="SteamRefreshLobbies" type="Button" parent="UI/TabContainer/Steam"]
+layout_mode = 2
+text = "Refresh Lobbies"
 
 [node name="Local Network" type="VBoxContainer" parent="UI/TabContainer"]
 visible = false
@@ -132,6 +141,8 @@ label_settings = SubResource("LabelSettings_4oog6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[connection signal="pressed" from="UI/TabContainer/Steam/SteamHostButton" to="." method="steam_create_lobby"]
+[connection signal="pressed" from="UI/TabContainer/Steam/SteamRefreshLobbies" to="." method="steam_lobby_refresh"]
 [connection signal="pressed" from="UI/TabContainer/Local Network/NotConnectedHBox/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="UI/TabContainer/Local Network/NotConnectedHBox/JoinButton" to="." method="_on_join_button_pressed"]
 [connection signal="pressed" from="UI/TabContainer/Local Network/HostHBox/PlayButton" to="." method="_on_play_button_pressed"]
