@@ -20,6 +20,7 @@ func _ready() -> void:
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
+	# Authenticat with service here...
 
 func create_game():
 	var peer = ENetMultiplayerPeer.new()

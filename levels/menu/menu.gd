@@ -6,14 +6,30 @@ extends Node
 @export var ip_line_edit:LineEdit
 @export var status_label:Label
 
-@export var not_connected_hbox:HBoxContainer
-@export var host_hbox:HBoxContainer
+@export var not_connected_hbox:VBoxContainer
+@export var host_hbox:VBoxContainer
+
+@export var steam_name_label:Label
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	multiplayer.connection_failed.connect(_on_connection_failure)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
+
+	#Too Many Sheep: 2410820
+
+	var initialize_response: Dictionary = Steam.steamInitEx( true, 480)
+	print("Did Steam initialize?: %s " % initialize_response)
+
+
+	# steam_name_label.text = Steam.getPersonaName()
 	
+	# Steam.addRequestLobbyListDistanceFilter(Steam.LOBBY_DISTANCE_FILTER_CLOSE)
+	
+	#Steam.lobby_match_list.connect(
+	#	func(lobby_list:Array):
+	#		print(lobby_list)
+	#)
 
 func _on_host_button_pressed() -> void:
 	not_connected_hbox.hide()

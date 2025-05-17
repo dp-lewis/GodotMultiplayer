@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bda07st24xu88"]
 
-[ext_resource type="Script" path="res://player/player_finder.gd" id="1_04uj8"]
+[ext_resource type="Script" uid="uid://bnrlck2ndb82j" path="res://player/player_finder.gd" id="1_04uj8"]
 [ext_resource type="Texture2D" uid="uid://5ndk5ribdpk4" path="res://art/characters/character_marker/Player_Finder.png" id="1_sukvh"]
 [ext_resource type="Texture2D" uid="uid://cijdeq4s63sbc" path="res://art/characters/elf/idle/0_Dark_Elves_Idle_000.png" id="2_ymn6e"]
 

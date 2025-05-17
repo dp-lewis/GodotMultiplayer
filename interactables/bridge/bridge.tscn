@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://yhtgws5swty2"]
 
-[ext_resource type="Script" path="res://interactables/bridge/bridge.gd" id="1_onfch"]
+[ext_resource type="Script" uid="uid://duta4nhbqf465" path="res://interactables/bridge/bridge.gd" id="1_onfch"]
 [ext_resource type="Texture2D" uid="uid://cu3ucp0ocryit" path="res://art/objects/Pillar_01.png" id="2_ca86l"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ygtdt"]
