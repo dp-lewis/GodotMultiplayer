@@ -8,7 +8,7 @@
 [sub_resource type="LabelSettings" id="LabelSettings_4oog6"]
 font_size = 72
 
-[node name="Menu" type="Node" node_paths=PackedStringArray("ui", "level_container", "ip_line_edit", "status_label", "not_connected_hbox", "host_hbox", "steam_name_label", "steam_refresh_lobbies_button", "steam_lobby_itemlist")]
+[node name="Menu" type="Node" node_paths=PackedStringArray("ui", "level_container", "ip_line_edit", "status_label", "not_connected_hbox", "host_hbox", "steam_name_label", "steam_refresh_lobbies_button", "steam_lobby_itemlist", "steam_setup_panel", "steam_client_panel", "steam_lobby_player_list", "steam_refresh_players_list_button", "steam_lobby_panel", "steam_start_button")]
 script = ExtResource("1_54wux")
 ui = NodePath("UI")
 level_container = NodePath("Level")
@@ -18,8 +18,14 @@ status_label = NodePath("UI/TabContainer/Local Network/StatusLabel")
 not_connected_hbox = NodePath("UI/TabContainer/Local Network/NotConnectedHBox")
 host_hbox = NodePath("UI/TabContainer/Local Network/HostHBox")
 steam_name_label = NodePath("UI/TabContainer/Steam/SteamPersonaName")
-steam_refresh_lobbies_button = NodePath("UI/TabContainer/Steam/SteamRefreshLobbies")
-steam_lobby_itemlist = NodePath("UI/TabContainer/Steam/ItemList")
+steam_refresh_lobbies_button = NodePath("UI/TabContainer/Steam/SteamSetupPanel/SteamRefreshLobbies")
+steam_lobby_itemlist = NodePath("UI/TabContainer/Steam/SteamSetupPanel/SteamLobbyList")
+steam_setup_panel = NodePath("UI/TabContainer/Steam/SteamSetupPanel")
+steam_client_panel = NodePath("UI/TabContainer/Steam/SteamLobbyPanel/SteamClientPanel")
+steam_lobby_player_list = NodePath("UI/TabContainer/Steam/SteamLobbyPanel/SteamPlayerList")
+steam_refresh_players_list_button = NodePath("UI/TabContainer/Steam/SteamLobbyPanel/SteamRefreshPlayerListButton")
+steam_lobby_panel = NodePath("UI/TabContainer/Steam/SteamLobbyPanel")
+steam_start_button = NodePath("UI/TabContainer/Steam/SteamLobbyPanel/SteamStartButton")
 
 [node name="Level" type="Node" parent="."]
 
@@ -82,24 +88,51 @@ metadata/_tab_index = 0
 layout_mode = 2
 text = "Name not fetched"
 
-[node name="SteamHostButton" type="Button" parent="UI/TabContainer/Steam"]
+[node name="SteamSetupPanel" type="VBoxContainer" parent="UI/TabContainer/Steam"]
+layout_mode = 2
+
+[node name="SteamHostButton" type="Button" parent="UI/TabContainer/Steam/SteamSetupPanel"]
 layout_mode = 2
 text = "Host"
 
-[node name="SteamJoinButton" type="Button" parent="UI/TabContainer/Steam"]
+[node name="SteamJoinButton" type="Button" parent="UI/TabContainer/Steam/SteamSetupPanel"]
 layout_mode = 2
 text = "Join
 "
 
-[node name="ItemList" type="ItemList" parent="UI/TabContainer/Steam"]
+[node name="SteamLobbyList" type="ItemList" parent="UI/TabContainer/Steam/SteamSetupPanel"]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
-item_count = 1
-item_0/text = "Example"
 
-[node name="SteamRefreshLobbies" type="Button" parent="UI/TabContainer/Steam"]
+[node name="SteamRefreshLobbies" type="Button" parent="UI/TabContainer/Steam/SteamSetupPanel"]
 layout_mode = 2
 text = "Refresh Lobbies"
+
+[node name="SteamLobbyPanel" type="VBoxContainer" parent="UI/TabContainer/Steam"]
+visible = false
+layout_mode = 2
+
+[node name="SteamPlayerList" type="ItemList" parent="UI/TabContainer/Steam/SteamLobbyPanel"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+
+[node name="SteamRefreshPlayerListButton" type="Button" parent="UI/TabContainer/Steam/SteamLobbyPanel"]
+layout_mode = 2
+text = "Refresh Players List"
+
+[node name="SteamStartButton" type="Button" parent="UI/TabContainer/Steam/SteamLobbyPanel"]
+visible = false
+layout_mode = 2
+text = "Start
+"
+
+[node name="SteamClientPanel" type="VBoxContainer" parent="UI/TabContainer/Steam/SteamLobbyPanel"]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/TabContainer/Steam/SteamLobbyPanel/SteamClientPanel"]
+layout_mode = 2
+text = "Connected to lobby"
 
 [node name="Local Network" type="VBoxContainer" parent="UI/TabContainer"]
 visible = false
@@ -141,8 +174,10 @@ label_settings = SubResource("LabelSettings_4oog6")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="UI/TabContainer/Steam/SteamHostButton" to="." method="_on_steam_host_button_pressed"]
-[connection signal="pressed" from="UI/TabContainer/Steam/SteamRefreshLobbies" to="." method="_on_steam_refresh_lobbies_pressed"]
+[connection signal="pressed" from="UI/TabContainer/Steam/SteamSetupPanel/SteamHostButton" to="." method="_on_steam_host_button_pressed"]
+[connection signal="pressed" from="UI/TabContainer/Steam/SteamSetupPanel/SteamJoinButton" to="." method="_on_steam_join_button_pressed"]
+[connection signal="pressed" from="UI/TabContainer/Steam/SteamSetupPanel/SteamRefreshLobbies" to="." method="_on_steam_refresh_lobbies_pressed"]
+[connection signal="pressed" from="UI/TabContainer/Steam/SteamLobbyPanel/SteamRefreshPlayerListButton" to="." method="_on_steam_refresh_player_list_button_pressed"]
 [connection signal="pressed" from="UI/TabContainer/Local Network/NotConnectedHBox/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="UI/TabContainer/Local Network/NotConnectedHBox/JoinButton" to="." method="_on_join_button_pressed"]
 [connection signal="pressed" from="UI/TabContainer/Local Network/HostHBox/PlayButton" to="." method="_on_play_button_pressed"]

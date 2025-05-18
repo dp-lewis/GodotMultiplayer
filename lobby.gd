@@ -45,6 +45,9 @@ func create_game():
 	
 	player_connected.emit(1, player_info)
 	
+func steam_join_game():
+	pass	
+
 func join_game(address):
 	var peer = ENetMultiplayerPeer.new()
 	
