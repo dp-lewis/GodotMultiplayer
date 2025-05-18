@@ -7,6 +7,8 @@ signal server_disconnected
 const PORT = 7000
 const MAX_CONNECTIONS = 2
 
+var STEAM_APP_ID = 480
+
 var players := {}
 
 var player_info := {
@@ -20,7 +22,15 @@ func _ready() -> void:
 	multiplayer.connection_failed.connect(_on_connection_failed)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
 
-	# Authenticat with service here...
+	#Too Many Sheep: 2410820
+	OS.set_environment("SteamAppId", str(STEAM_APP_ID))
+	OS.set_environment("SteamGameId", str(STEAM_APP_ID))
+
+	var initialize_response: Dictionary = Steam.steamInitEx()
+	print("Did Steam initialize?: %s " % initialize_response)
+
+func _process(delta: float) -> void:
+	Steam.run_callbacks()
 
 func create_game():
 	var peer = ENetMultiplayerPeer.new()
@@ -69,3 +79,13 @@ func _on_connection_failed():
 	multiplayer.multiplayer_peer = null
 	players = {}
 	server_disconnected.emit()
+
+func steam_create_lobby() -> void: 
+	print("Creating Lobby")
+	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, 2)
+	
+
+func steam_lobby_refresh() -> void:
+	print("Requestion Lobby Refresh")
+	Steam.addRequestLobbyListDistanceFilter(Steam.LOBBY_DISTANCE_FILTER_CLOSE)
+	Steam.requestLobbyList()	

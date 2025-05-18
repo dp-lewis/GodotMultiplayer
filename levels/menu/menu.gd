@@ -13,37 +13,21 @@ extends Node
 @export var steam_refresh_lobbies_button:Button
 @export var steam_lobby_itemlist:ItemList
 
-var STEAM_APP_ID = 480
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	multiplayer.connection_failed.connect(_on_connection_failure)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
-
-	#Too Many Sheep: 2410820
-	OS.set_environment("SteamAppId", str(STEAM_APP_ID))
-	OS.set_environment("SteamGameId", str(STEAM_APP_ID))
-	
-	var initialize_response: Dictionary = Steam.steamInitEx()
-	print("Did Steam initialize?: %s " % initialize_response)
 	
 	steam_name_label.text = Steam.getPersonaName()
 	Steam.lobby_match_list.connect(_on_lobby_match_list)
-	Steam.lobby_created.connect(_on_lobby_created)
+	Steam.lobby_created.connect(_on_steam_lobby_created)
 	Steam.lobby_data_update.connect(_on_lobby_data_update)
 
-	
-func _process(delta: float) -> void:
-	Steam.run_callbacks()
+	Lobby.steam_lobby_refresh()
 
-func steam_create_lobby() -> void: 
-	print("Creating Lobby")
-	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, 2)
 
-func steam_lobby_refresh() -> void:
-	print("Requestion Lobby Refresh")
-	Steam.addRequestLobbyListDistanceFilter(Steam.LOBBY_DISTANCE_FILTER_CLOSE)
-	Steam.requestLobbyList()	
 
 func _on_lobby_match_list(lobbies: Array):
 	steam_lobby_itemlist.clear()
@@ -60,7 +44,7 @@ func _on_lobby_data_update(success: bool, lobby_id: int, member_id: int):
 		steam_lobby_itemlist.add_item(name + " (ID: " + str(lobby_id) + ")", null, false)
 
 
-func _on_lobby_created(connect: bool, lobby_id: int):
+func _on_steam_lobby_created(connect: bool, lobby_id: int):
 	if connect:
 		print("Lobby created! Lobby ID: ", lobby_id)
 		# You can now set metadata or wait for others to join
@@ -112,3 +96,11 @@ func hide_menu():
 
 func _on_level_complete():
 	call_deferred("change_level", level_scene)
+
+
+func _on_steam_host_button_pressed() -> void:
+	Lobby.steam_create_lobby()
+
+
+func _on_steam_refresh_lobbies_pressed() -> void:
+	Lobby.steam_lobby_refresh()
