@@ -1,9 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://0a5ltmhwdaxt"]
+[gd_scene load_steps=10 format=3 uid="uid://0a5ltmhwdaxt"]
 
 [ext_resource type="Script" uid="uid://bl7dxo7fwedd5" path="res://levels/menu/menu.gd" id="1_54wux"]
 [ext_resource type="Texture2D" uid="uid://bja0wl8tcw71c" path="res://art/backgrounds/background_01.png" id="1_unbo6"]
 [ext_resource type="PackedScene" uid="uid://dqbmu1v1b4lph" path="res://levels/level_01/level_01.tscn" id="2_b6ac3"]
 [ext_resource type="Texture2D" uid="uid://bujx43rcy5b85" path="res://art/backgrounds/background_02.png" id="2_g1blg"]
+[ext_resource type="Script" uid="uid://dwgb78bar1djl" path="res://lobby.gd" id="3_p0td0"]
+[ext_resource type="PackedScene" uid="uid://dc5b81gyejqrw" path="res://network/enet/enet_network.tscn" id="5_iyeus"]
+[ext_resource type="Script" uid="uid://debbar1107ovu" path="res://network/network_manager.gd" id="5_p0td0"]
+[ext_resource type="PackedScene" uid="uid://5tl7qcrjnd1v" path="res://network/steam/steam_network.tscn" id="6_bbh48"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_4oog6"]
 font_size = 72
@@ -26,6 +30,20 @@ steam_lobby_player_list = NodePath("UI/TabContainer/Steam/SteamLobbyPanel/SteamP
 steam_refresh_players_list_button = NodePath("UI/TabContainer/Steam/SteamLobbyPanel/SteamRefreshPlayerListButton")
 steam_lobby_panel = NodePath("UI/TabContainer/Steam/SteamLobbyPanel")
 steam_start_button = NodePath("UI/TabContainer/Steam/SteamLobbyPanel/SteamStartButton")
+
+[node name="Lobby" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("3_p0td0")
+
+[node name="NetworkManager" type="Node" parent="." node_paths=PackedStringArray("enet_network", "steam_network")]
+unique_name_in_owner = true
+script = ExtResource("5_p0td0")
+enet_network = NodePath("EnetNetwork")
+steam_network = NodePath("SteamNetwork")
+
+[node name="EnetNetwork" parent="NetworkManager" instance=ExtResource("5_iyeus")]
+
+[node name="SteamNetwork" parent="NetworkManager" instance=ExtResource("6_bbh48")]
 
 [node name="Level" type="Node" parent="."]
 
