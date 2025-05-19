@@ -13,7 +13,11 @@ extends Node
 func _ready() -> void:
 	multiplayer.connection_failed.connect(_on_connection_failure)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
-	
+
+	Lobby.steam_lobby_data_update.connect(
+		func(success: bool, lobby_id: int, lobby_name: String):
+			print(lobby_name)
+	)	
 
 func _on_host_button_pressed() -> void:
 	not_connected_hbox.hide()
