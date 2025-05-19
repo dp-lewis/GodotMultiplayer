@@ -6,8 +6,8 @@ extends Node
 @export var ip_line_edit:LineEdit
 @export var status_label:Label
 
-@export var not_connected_hbox:HBoxContainer
-@export var host_hbox:HBoxContainer
+@export var not_connected_vbox:VBoxContainer
+@export var host_vbox:VBoxContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -20,13 +20,13 @@ func _ready() -> void:
 	)	
 
 func _on_host_button_pressed() -> void:
-	not_connected_hbox.hide()
-	host_hbox.show()
+	not_connected_vbox.hide()
+	host_vbox.show()
 	Lobby.create_game()
 	status_label.text = "Hosting"
 
 func _on_join_button_pressed() -> void:
-	not_connected_hbox.hide()
+	not_connected_vbox.hide()
 	Lobby.join_game(ip_line_edit.text)
 	status_label.text = "Connecting..."
 
@@ -47,7 +47,7 @@ func change_level(scene:PackedScene):
 	new_level.level_complete.connect(_on_level_complete)
 
 func _on_connection_failure():
-	not_connected_hbox.show()
+	not_connected_vbox.show()
 	status_label.text = "Failed to connect"
 
 func _on_connected_to_server():
