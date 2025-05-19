@@ -79,6 +79,10 @@ layout_mode = 2
 text = "127.0.0.1"
 placeholder_text = "Enter IP Address"
 
+[node name="SteaamLobbyRefreshButton" type="Button" parent="UI/NotConnectedHBox"]
+layout_mode = 2
+text = "Refresh Lobby List"
+
 [node name="HostHBox" type="HBoxContainer" parent="UI"]
 visible = false
 layout_mode = 0
@@ -105,4 +109,5 @@ vertical_alignment = 1
 
 [connection signal="pressed" from="UI/NotConnectedHBox/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="UI/NotConnectedHBox/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="UI/NotConnectedHBox/SteaamLobbyRefreshButton" to="." method="_on_steaam_lobby_refresh_button_pressed"]
 [connection signal="pressed" from="UI/HostHBox/PlayButton" to="." method="_on_play_button_pressed"]

@@ -12,7 +12,7 @@ var next_player_index := 0
 
 var next_spawn_point_index := 0
 
-func _ready():
+func _ready():	
 	if not multiplayer.is_server():
 		return 
 		

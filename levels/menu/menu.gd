@@ -58,3 +58,8 @@ func hide_menu():
 
 func _on_level_complete():
 	call_deferred("change_level", level_scene)
+
+
+func _on_steaam_lobby_refresh_button_pressed() -> void:
+	print("Requesting Lobby Refresh")
+	Steam.requestLobbyList()
