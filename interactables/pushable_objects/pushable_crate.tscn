@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://tij4jq4oxm3"]
 
-[ext_resource type="Script" path="res://interactables/pushable_objects/pushable_object.gd" id="1_af65w"]
+[ext_resource type="Script" uid="uid://fyhr4tmfdilo" path="res://interactables/pushable_objects/pushable_object.gd" id="1_af65w"]
 [ext_resource type="Texture2D" uid="uid://rglygid7fsot" path="res://art/objects/Wooden_Crate.png" id="1_rp7ir"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_116qs"]

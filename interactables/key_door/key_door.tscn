@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cywnqfgnpevs7"]
 
-[ext_resource type="Script" path="res://interactables/key_door/key_door.gd" id="1_garwr"]
+[ext_resource type="Script" uid="uid://bm6kp3rdcvbrn" path="res://interactables/key_door/key_door.gd" id="1_garwr"]
 [ext_resource type="Texture2D" uid="uid://bg27k5sblx533" path="res://art/objects/Door_01.png" id="1_iwfgb"]
 
 [sub_resource type="Gradient" id="Gradient_woibm"]
