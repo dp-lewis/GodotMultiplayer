@@ -9,14 +9,23 @@ extends Node
 @export var not_connected_vbox:VBoxContainer
 @export var host_vbox:VBoxContainer
 
+@export var steam_lobby_itemlist:ItemList
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	multiplayer.connection_failed.connect(_on_connection_failure)
 	multiplayer.connected_to_server.connect(_on_connected_to_server)
 
+	Lobby.steam_lobby_list.connect(
+		func(lobbies:Array): 
+			steam_lobby_itemlist.clear()
+	)
+
 	Lobby.steam_lobby_data_update.connect(
 		func(success: bool, lobby_id: int, lobby_name: String):
-			print(lobby_name)
+			steam_lobby_itemlist.add_item(name + " (ID: " + str(lobby_id) + ")", null, false)
+			var itemlist_id = steam_lobby_itemlist.add_item(lobby_name)
+			steam_lobby_itemlist.set_item_metadata(itemlist_id, lobby_id)  # store the Steam lobby ID
 	)	
 
 func _on_host_button_pressed() -> void:

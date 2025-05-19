@@ -9,7 +9,7 @@
 font_size = 36
 font_color = Color(0.0827415, 0.0827414, 0.0827414, 1)
 
-[node name="Menu" type="Node" node_paths=PackedStringArray("ui", "level_container", "ip_line_edit", "status_label", "not_connected_vbox", "host_vbox")]
+[node name="Menu" type="Node" node_paths=PackedStringArray("ui", "level_container", "ip_line_edit", "status_label", "not_connected_vbox", "host_vbox", "steam_lobby_itemlist")]
 script = ExtResource("1_54wux")
 ui = NodePath("UI")
 level_container = NodePath("Level")
@@ -18,6 +18,7 @@ ip_line_edit = NodePath("UI/NetworkTabContainer/LAN/NotConnectedVBox/IPLineEdit"
 status_label = NodePath("UI/StatusLabel")
 not_connected_vbox = NodePath("UI/NetworkTabContainer/LAN/NotConnectedVBox")
 host_vbox = NodePath("UI/NetworkTabContainer/LAN/HostVBox")
+steam_lobby_itemlist = NodePath("UI/NetworkTabContainer/Steam/SteamNotConnectedVBox/SteamLobbyItemList")
 
 [node name="Level" type="Node" parent="."]
 
@@ -78,9 +79,10 @@ offset_right = 200.0
 offset_bottom = 175.0
 grow_horizontal = 2
 grow_vertical = 2
-current_tab = 0
+current_tab = 1
 
 [node name="LAN" type="Control" parent="UI/NetworkTabContainer"]
+visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
@@ -120,18 +122,27 @@ size_flags_horizontal = 3
 text = "Start"
 
 [node name="Steam" type="Control" parent="UI/NetworkTabContainer"]
-visible = false
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="SteaamLobbyRefreshButton" type="Button" parent="UI/NetworkTabContainer/Steam"]
+[node name="SteamNotConnectedVBox" type="VBoxContainer" parent="UI/NetworkTabContainer/Steam"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 35.0
+grow_horizontal = 2
+
+[node name="SteamLobbyItemList" type="ItemList" parent="UI/NetworkTabContainer/Steam/SteamNotConnectedVBox"]
+custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
-offset_top = 105.0
-offset_right = 400.0
-offset_bottom = 136.0
+item_count = 1
+item_0/text = "Example"
+
+[node name="SteaamLobbyRefreshButton" type="Button" parent="UI/NetworkTabContainer/Steam/SteamNotConnectedVBox"]
+layout_mode = 2
 text = "Refresh Lobby List"
 
 [connection signal="pressed" from="UI/NetworkTabContainer/LAN/NotConnectedVBox/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="pressed" from="UI/NetworkTabContainer/LAN/NotConnectedVBox/JoinButton" to="." method="_on_join_button_pressed"]
 [connection signal="pressed" from="UI/NetworkTabContainer/LAN/HostVBox/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="UI/NetworkTabContainer/Steam/SteaamLobbyRefreshButton" to="." method="_on_steaam_lobby_refresh_button_pressed"]
+[connection signal="pressed" from="UI/NetworkTabContainer/Steam/SteamNotConnectedVBox/SteaamLobbyRefreshButton" to="." method="_on_steaam_lobby_refresh_button_pressed"]
