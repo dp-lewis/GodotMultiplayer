@@ -64,7 +64,8 @@ func _ready() -> void:
 			for i in range(member_count):
 				var member_steam_id := Steam.getLobbyMemberByIndex(this_lobby_id, i)
 				var persona_name := Steam.getFriendPersonaName(member_steam_id)
-				members.add({
+	
+				members.append({
 					"persona_name": persona_name,
 					"member_steam_id": member_steam_id
 				})
@@ -129,3 +130,7 @@ func _on_connection_failed():
 	multiplayer.multiplayer_peer = null
 	players = {}
 	server_disconnected.emit()
+
+
+func join_steam_lobby(lobby_id:int):
+	Steam.joinLobby(lobby_id)

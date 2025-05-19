@@ -10,6 +10,9 @@ extends Node
 @export var host_vbox:VBoxContainer
 
 @export var steam_lobby_itemlist:ItemList
+@export var steam_lobby_id_selected:int
+@export var steam_lobby_connect_button:Button
+@export var steam_not_connected_vbox:VBoxContainer
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -26,7 +29,19 @@ func _ready() -> void:
 			steam_lobby_itemlist.add_item(name + " (ID: " + str(lobby_id) + ")", null, false)
 			var itemlist_id = steam_lobby_itemlist.add_item(lobby_name)
 			steam_lobby_itemlist.set_item_metadata(itemlist_id, lobby_id)  # store the Steam lobby ID
-	)	
+	)
+	
+	Lobby.steam_lobby_joined.connect(
+		func(this_lobby_id: int, member_count: int, members:Array):
+			steam_not_connected_vbox.visible = false
+			status_label.text = "Connecting..."
+	)
+	
+	steam_lobby_itemlist.item_selected.connect(
+		func(index): 
+			steam_lobby_id_selected = steam_lobby_itemlist.get_item_metadata(index)
+			steam_lobby_connect_button.disabled = false
+	)
 
 func _on_host_button_pressed() -> void:
 	not_connected_vbox.hide()
@@ -76,3 +91,7 @@ func _on_level_complete():
 func _on_steaam_lobby_refresh_button_pressed() -> void:
 	print("Requesting Lobby Refresh")
 	Steam.requestLobbyList()
+
+
+func _on_steam_lobby_connect_button_pressed() -> void:
+	Lobby.join_steam_lobby(steam_lobby_id_selected)
