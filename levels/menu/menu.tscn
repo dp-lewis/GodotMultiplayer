@@ -9,7 +9,7 @@
 font_size = 36
 font_color = Color(0.0827415, 0.0827414, 0.0827414, 1)
 
-[node name="Menu" type="Node" node_paths=PackedStringArray("ui", "level_container", "ip_line_edit", "status_label", "not_connected_vbox", "host_vbox", "steam_lobby_itemlist", "steam_lobby_connect_button", "steam_not_connected_vbox")]
+[node name="Menu" type="Node" node_paths=PackedStringArray("ui", "level_container", "ip_line_edit", "status_label", "not_connected_vbox", "host_vbox", "steam_lobby_itemlist", "steam_lobby_connect_button", "steam_not_connected_vbox", "steam_lobby_create_button")]
 script = ExtResource("1_54wux")
 ui = NodePath("UI")
 level_container = NodePath("Level")
@@ -21,6 +21,7 @@ host_vbox = NodePath("UI/NetworkTabContainer/LAN/HostVBox")
 steam_lobby_itemlist = NodePath("UI/NetworkTabContainer/Steam/SteamNotConnectedVBox/SteamLobbyItemList")
 steam_lobby_connect_button = NodePath("UI/NetworkTabContainer/Steam/SteamNotConnectedVBox/SteamLobbyConnectButton")
 steam_not_connected_vbox = NodePath("UI/NetworkTabContainer/Steam/SteamNotConnectedVBox")
+steam_lobby_create_button = NodePath("UI/NetworkTabContainer/Steam/SteamNotConnectedVBox/SteamLobbyCreate")
 
 [node name="Level" type="Node" parent="."]
 
@@ -149,6 +150,10 @@ layout_mode = 2
 disabled = true
 text = "Join"
 
+[node name="SteamLobbyCreate" type="Button" parent="UI/NetworkTabContainer/Steam/SteamNotConnectedVBox"]
+layout_mode = 2
+text = "Host"
+
 [node name="SteamConnected" type="VBoxContainer" parent="UI/NetworkTabContainer/Steam"]
 visible = false
 layout_mode = 1
@@ -166,3 +171,4 @@ text = "Start"
 [connection signal="pressed" from="UI/NetworkTabContainer/LAN/HostVBox/PlayButton" to="." method="_on_play_button_pressed"]
 [connection signal="pressed" from="UI/NetworkTabContainer/Steam/SteamNotConnectedVBox/SteaamLobbyRefreshButton" to="." method="_on_steaam_lobby_refresh_button_pressed"]
 [connection signal="pressed" from="UI/NetworkTabContainer/Steam/SteamNotConnectedVBox/SteamLobbyConnectButton" to="." method="_on_steam_lobby_connect_button_pressed"]
+[connection signal="pressed" from="UI/NetworkTabContainer/Steam/SteamNotConnectedVBox/SteamLobbyCreate" to="." method="_on_steam_lobby_create_pressed"]

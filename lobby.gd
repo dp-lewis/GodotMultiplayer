@@ -9,8 +9,11 @@ signal steam_lobby_data_update(success: bool, lobby_id: int, lobby_name: String)
 signal steam_lobby_joined(this_lobby_id: int, member_count: int, members:Array)
 signal steam_lobby_created(connected:bool, lobby_id:int, lobby_name:String)
 
+
+
 const PORT = 7000
 const MAX_CONNECTIONS = 2
+
 
 var players := {}
 
@@ -44,33 +47,44 @@ func _ready() -> void:
 	)
 	
 	Steam.lobby_created.connect(
-		func(connected: bool, lobby_id: int):
+		func(status: int, lobby_id: int):
 			var lobby_name = "My Godot Lobby"
 			
-			if connected:
+			if status == 1:
 				print("Lobby created! Lobby ID: ", lobby_id)
 				Steam.setLobbyData(lobby_id, "name", lobby_name)
+				create_steam_socket()
 			else:
 				print("Failed to create lobby. Error code: ")
-				
-			steam_lobby_created.emit(connected, lobby_id, lobby_name)
+
+
+
+			steam_lobby_created.emit(status, lobby_id, lobby_name)
 	)
 	
 	Steam.lobby_joined.connect(
-		func(this_lobby_id: int, _permissions: int, _locked: bool, _response: int):
-			var member_count = Steam.getNumLobbyMembers(this_lobby_id)
-			var members = []
+		func(this_lobby_id: int, _permissions: int, _locked: bool, response: int):
+			if response == Steam.CHAT_ROOM_ENTER_RESPONSE_SUCCESS:
+				# lobby_id = this_lobby_id
+				var id = Steam.getLobbyOwner(this_lobby_id)
+				if id != Steam.getSteamID():
+					connect_steam_socket(id)
+					# register_player.rpc(player_name)
+					# players[multiplayer.get_unique_id()] = player_name
 
-			for i in range(member_count):
-				var member_steam_id := Steam.getLobbyMemberByIndex(this_lobby_id, i)
-				var persona_name := Steam.getFriendPersonaName(member_steam_id)
+				var member_count = Steam.getNumLobbyMembers(this_lobby_id)
+				var members = []
+
+				for i in range(member_count):
+					var member_steam_id := Steam.getLobbyMemberByIndex(this_lobby_id, i)
+					var persona_name := Steam.getFriendPersonaName(member_steam_id)
 	
-				members.append({
-					"persona_name": persona_name,
-					"member_steam_id": member_steam_id
-				})
+					members.append({
+						"persona_name": persona_name,
+						"member_steam_id": member_steam_id
+					})
 				
-			steam_lobby_joined.emit(this_lobby_id, member_count, members)	
+				steam_lobby_joined.emit(this_lobby_id, member_count, members)
 	)
 
 	# General network signals
@@ -104,6 +118,8 @@ func join_game(address):
 		return error
 		
 	multiplayer.multiplayer_peer = peer
+	
+
 
 func _on_player_connected(id):
 	_register_player.rpc_id(id, player_info)
@@ -134,3 +150,28 @@ func _on_connection_failed():
 
 func join_steam_lobby(lobby_id:int):
 	Steam.joinLobby(lobby_id)
+
+
+
+func create_steam_lobby():
+	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, 2)
+	
+func create_steam_socket():
+	var peer = SteamMultiplayerPeer.new()
+	var error = peer.create_host(0)
+	
+	multiplayer.multiplayer_peer = peer
+	players[1] = player_info	
+	player_connected.emit(1, player_info)
+	
+	print("creating steam socket ", error)
+
+
+func connect_steam_socket(steam_id):
+
+	var peer = SteamMultiplayerPeer.new()
+	var error = peer.create_client(steam_id, 0)
+	multiplayer.set_multiplayer_peer(peer)
+
+	print("Connecting to lobby %s" % steam_id)
+	print("error code: ", error)
